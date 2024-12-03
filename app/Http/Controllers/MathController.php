@@ -8,11 +8,13 @@ class MathController extends Controller
 {
     public function sum($a, $b)
     {
-        return $a + $b;
+        $r = $a + $b;
+        return "$a" . "+" . "$b = $r";
     }
 
-    public function subtract($a, $b)
+    public function subtraction($a, $b)
     {
-        return $a - $b;
+        $r = $a - $b;
+        return "$a" . "-" . "$b = $r";
     }
 }
