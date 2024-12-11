@@ -8,4 +8,33 @@ use Illuminate\Database\Eloquent\Model;
 class CarFeatures extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'car_id';
+
+
+    protected $fillable = [
+        'car_id',
+        'abs',
+        'air_conditioning',
+        'power_windows',
+        'power_door_Jocks',
+        'cruise_control',
+        'bluetooth_connectivity',
+        'remote_start',
+        'gps_navigation',
+        'heater_seats',
+        'climate_control',
+        'leather_seats',
+        'rear_parking_sensors'
+    ];
 }
+
+
+
+
+
+
+
+
+
+
+
