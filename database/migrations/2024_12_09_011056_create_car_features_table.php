@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean('abs')->default(0);
             $table->boolean('air_conditioning')->default(0);
             $table->boolean('power_windows')->default(0);
-            $table->boolean('power_door_Jocks')->default(0);
+            $table->boolean('power_door_locks')->default(0);
             $table->boolean('cruise_control')->default(0);
             $table->boolean('bluetooth_connectivity')->default(0);
             $table->boolean('remote_start')->default(0);

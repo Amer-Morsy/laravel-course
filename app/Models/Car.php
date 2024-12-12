@@ -31,4 +31,30 @@ class Car extends Model
     ];
 
 //    protected $guarded = [];
+
+    public function features()
+    {
+        return $this->hasOne(CarFeatures::class);
+    }
+
+    public function primaryImage()
+    {
+        return $this->hasOne(CarImage::class)
+            ->oldestOfMany('position');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(CarImage::class);
+    }
+
+    public function carType()
+    {
+        return $this->belongsTo(CarType::class);
+    }
+
+    public function favoritedUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorite_cars', 'car_id', 'user_id');
+    }
 }

@@ -9,6 +9,7 @@ class CarFeatures extends Model
 {
     use HasFactory;
     protected $primaryKey = 'car_id';
+    public $timestamps=false;
 
 
     protected $fillable = [
@@ -16,7 +17,7 @@ class CarFeatures extends Model
         'abs',
         'air_conditioning',
         'power_windows',
-        'power_door_Jocks',
+        'power_door_locks',
         'cruise_control',
         'bluetooth_connectivity',
         'remote_start',
