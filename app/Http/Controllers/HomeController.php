@@ -8,111 +8,104 @@ use App\Models\CarImage;
 use App\Models\CarType;
 use App\Models\FuelType;
 use App\Models\Maker;
+use App\Models\Model;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
+//        $maker = Maker::factory()->make(); //just generate instance of the model
+//        $maker = Maker::factory()->create(); // generate & write to DB
+//        $makers = Maker::factory()->count(10)->create(); // multi-rows
 
-//        ## ONE_TO_ONE ###
-        //        $car = Car::find(1);
-//        dump($car->features, $car->primaryImage);
-//        $car->features->abs=0;
-//        $car->features->save();
-//        $car->features->update(['abs' => 1, 'air_conditioning' => 0]);
-//        dump($car->features);
-//        $car->primaryImage->delete();
+//        $users = User::factory()->count(10)
+//            ->create([
+//                'name' => 'Amer'
+//            ]);// custom col=>val for records
+
+//        $users = User::factory()
+//            ->count(8)
+//            ->state([
+//                'name' => 'Mora'
+//            ])
+//            ->create();// custom col=>val for records
+
+//        $users = User::factory()
+//            ->count(4)
+//            ->sequence(
+//                ['name' => 'mario'],
+//                ['name' => 'shown']
+//            )
+//            ->create();// custom sequence col=>val for records
+
+//        $users = User::factory()
+//            ->count(3)
+//            ->sequence(function (Sequence $sequence) {
+//                return ['email' => 'email' . $sequence->index . '@mail.com'];
+//            })
+//            ->create();//  sequence accept call-back function
+
+//        $users = User::factory()
+//            ->count(4)
+//            ->unverified()
+//            ->create();//  use a method in factory
+
+//        $makers = Maker::factory()
+//            ->count(2)
+//            ->alternativeNames()
+//            ->create();//  use a method in factory
 //
-//        $car_features = new CarFeatures([
-//            "cruise_control" => false,
-//            "abs" => false,
-//            "air_conditioning" => false,
-//            "power_windows" => false,
-//            "power_door_locks" => true,
-//            "bluetooth_connectivity" => true,
-//            "remote_start" => false,
-//            "gps_navigation" => true,
-//            "heater_seats" => false,
-//            "climate_control" => true,
-//            "rear_parking_sensors" => true,
-//            "leather_seats" => false
-//        ]);
+//        User::factory()
+//            ->afterCreating(function (User $user) {
+//                dump($user); //do some code...
+//            })
+//            ->create();//  afterCreating & afterMaking call-back fun.
+
+//        ## with relations ##
+//        ## ONE_TO_MANY ##
+//  #ERROR
+//       Maker::factory()
+//            ->count(3)
+//            ->hasModels(4)
+//            ->create(); //create 3 makers with 4 models (relation-name) for each maker
+
+//        Maker::factory()->count(2)
+//            ->hasModels(1, ['name' => 'Test'])
+//            ->create(); //col=>val
+
+
+//        User::factory()->count(2)
+//            ->hasCars(1, function (array $attributes, User $user) {
+//                return ['phone' => $user->phone];
+//            })
+//            ->create();
+
+//        Maker::factory()->count(2)
+//            ->hasModels(1, function (array $attributes, Maker $maker) {
+//                return ['name' => $maker->name . '_maker-model-child'];
+//            })
+//            ->has(Model::factory()->count(3))
+//            ->has(Model::factory()->count(3), 'relationName')
+//            ->create();
+//  #ERROR
+
+//        $maker = Maker::factory()->craete();
 //
-//        $car = Car::find(4);
-//        $car->features()->save($car_features);
+//        Model::factory()
+//            ->count(5)
+//            ->for($maker)
+////            ->forMaker(['name'=>'Lexus'])
+////            ->for(Maker::factory()->state(['name'=>'Lexus']))
+////            ->for(Maker::factory()->state(['name'=>'Lexus']), 'relationName ')
+////            ->create();
 
-
-//       ### ONE_TO_MANY ###
-//        $car = Car::find(1);
-//        dump($car->images);
-
-//        CREATE
-//        $car->images()->save(new CarImage(['images_path' => 'some-thing', 'position' => 3]));
-//        $car->images()->create(['images_path' => 'some-thing1', 'position' => 4]);
-
-//        Car::find(2)->images()
-//            ->saveMany([
-//                new CarImage(['images_path' => 'some-thing2', 'position' => 5]),
-//                new CarImage(['images_path' => 'some-thing3', 'position' => 6])
-//            ]);
-//
-//        $car->images()
-//            ->createMany([
-//                ['images_path' => 'some-thing4', 'position' => 7],
-//                ['images_path' => 'some-thing5', 'position' => 8],
-//            ]);
-
-
-//        ### MANY_TO_ONE ###
-//        $car = Car::find(1);
-//        dd($car->carType);
-
-//        return (
-//        Car::whereBelongsTo(
-//            CarType::where('name', 'Jeep')->first()
-//        )->get()
-//        );
-
-//        $hatchType = CarType::where('name', 'Hatchback')->first();
-
-//        $carsOfHatch = Car::WhereBelongsTo($hatchType)->get();
-//        $carsOfHatch = $hatchType->cars;
-
-//        return($carsOfHatch);
-
-//        $car = Car::find(1);
-//        $suvType = CarType::where('name', 'SUV')->first();
-//
-//        $car->car_type_id = $suvType->id;
-//        $car->save();
-
-//        $car = Car::find(1);
-//        $jeepType = CarType::where('name', 'Jeep')->first();
-//        $car->carType()->associate($jeepType);
-//        $car->save();
-//
-//        return ($car->carType);
-
-//        ## MANY_TO_MANY ###
-//        $car = Car::find(1);
-//        dd($car->favoritedUsers);
-
-//        $user = User::find(1);
-//        dd($user->favoriteCars);
-
-        $user = User::find(1);
-//        $user->favoriteCars()->attach([3,4]);
-//        $user->favoriteCars()->attach([3,4], ['col1'=>'val']);
-
-//        $user->favoriteCars()->detach([3]);
-//        $user->favoriteCars()->detach(); //detach all
-
-//        $user->favoriteCars()->sync([5,6]);
-//        $user->favoriteCars()->syncWithPivotValues([5,6], ['col1'=>'val']);
-
-        return($user->favoriteCars);
+        User::factory()
+            ->has(Car::factory()->count(5), 'favoriteCars')
+//            ->hasAttacted(Car::factory()->count(5), ['col1' => 'val'], 'favoriteCars')
+            ->create();
 
         return view('home.index');
     }

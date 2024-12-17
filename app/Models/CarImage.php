@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class CarImage extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
 
-    protected $fillable= ['images_path', 'position'];
+    protected $fillable = ['images_path', 'position'];
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
 }

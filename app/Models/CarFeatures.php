@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CarFeatures extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'car_id';
-    public $timestamps=false;
+    public $timestamps = false;
 
 
     protected $fillable = [
@@ -27,6 +28,11 @@ class CarFeatures extends Model
         'leather_seats',
         'rear_parking_sensors'
     ];
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
 }
 
 
