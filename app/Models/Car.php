@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -82,6 +83,11 @@ class Car extends EloquentModel
     public function favoritedUsers()
     {
         return $this->belongsToMany(User::class, 'favorite_cars', 'car_id', 'user_id');
+    }
+
+    public function getCreatedDate()
+    {
+        return (new Carbon($this->created_at))->format('Y-m-d ');
     }
 
 
