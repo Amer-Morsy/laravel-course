@@ -12,101 +12,80 @@ use App\Models\Model;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function index()
     {
-//        $maker = Maker::factory()->make(); //just generate instance of the model
-//        $maker = Maker::factory()->create(); // generate & write to DB
-//        $makers = Maker::factory()->count(10)->create(); // multi-rows
+        $cars = Car::where('published_at', '<', now())
+            ->orderBy('published_at', 'desc')
+            ->limit(30)
+            ->get();
 
-//        $users = User::factory()->count(10)
-//            ->create([
-//                'name' => 'Amer'
-//            ]);// custom col=>val for records
+        //## Query Data - Different Methods ##
+//        $cars = DB::table('cars')->get();
+//        $query = Car::query(); //use any methods from query class : where, orderBy, limit etc..
+//        $cars= Car::get(); //select all records
+//        $car= Car::first(); //select single record
+//        $highestPrice= Car::orderBy(
+//            'price', 'desc'
+//        )->value('price'); //select a single value
 
-//        $users = User::factory()
-//            ->count(8)
-//            ->state([
-//                'name' => 'Mora'
-//            ])
-//            ->create();// custom col=>val for records
+//        ##select list of values of a single column
+//        $prices = Car::orderBy(
+//            'price', 'desc'
+//        )->pluck('price'); //[p1, p2, ..]
 
-//        $users = User::factory()
-//            ->count(4)
-//            ->sequence(
-//                ['name' => 'mario'],
-//                ['name' => 'shown']
-//            )
-//            ->create();// custom sequence col=>val for records
+//          $prices = Car::orderBy(
+//            'price', 'desc'
+//        )->pluck('price', 'id'); //['1'=>'p1', '2'=>'p2', ..]
 
-//        $users = User::factory()
-//            ->count(3)
-//            ->sequence(function (Sequence $sequence) {
-//                return ['email' => 'email' . $sequence->index . '@mail.com'];
-//            })
-//            ->create();//  sequence accept call-back function
+//        ##check if records exists
+//        if(Car::where('user_id', 1)->exists()){
+//            //user has cars
+//        }
 
-//        $users = User::factory()
-//            ->count(4)
-//            ->unverified()
-//            ->create();//  use a method in factory
+//        if(Car::where('user_id', 1)->doesntExists()){
+//            //user does not have cars
+//        }
 
-//        $makers = Maker::factory()
-//            ->count(2)
-//            ->alternativeNames()
-//            ->create();//  use a method in factory
-//
-//        User::factory()
-//            ->afterCreating(function (User $user) {
-//                dump($user); //do some code...
-//            })
-//            ->create();//  afterCreating & afterMaking call-back fun.
+//        ##specify select
+//        // Select only vin code and price of the cars
+//        $cars = Car::select('vin', 'price as car_price')->get();
+//        // You can also add another columns in select at later stage
+//        $query = Car::select('vin', 'price as car_price');
+//        // Each car will have 3 columns selected: vin, price with name car price and mileage
+//        $cars = $query->addSelect('mileage')->get();
 
-//        ## with relations ##
-//        ## ONE_TO_MANY ##
-//  #ERROR
-//       Maker::factory()
-//            ->count(3)
-//            ->hasModels(4)
-//            ->create(); //create 3 makers with 4 models (relation-name) for each maker
+        // Select distinct maker and models from the cars
+//        $distinct = Car::select('maker_id', 'model_id')
+//            ->distinct()->get();
 
-//        Maker::factory()->count(2)
-//            ->hasModels(1, ['name' => 'Test'])
-//            ->create(); //col=>val
+        // Using limit and offset. Select 10 cars starting from 6th
+//        $cars = Car::limit(10)->offset(5)->get();
+//        // The same as above. Using skip and take. Skip 5 cars and take 10
+//        $cars = Car::skip(5)->take(10)->get();
 
+        // Select number of published cars
+//        $carCount = Car::where('published_at', '!=', null)
+//            ->count();
 
-//        User::factory()->count(2)
-//            ->hasCars(1, function (array $attributes, User $user) {
-//                return ['phone' => $user->phone];
-//            })
-//            ->create();
+        // Select minimum and maximum and average price of the cars
+//        $minPrice = Car::where('published_at', '=', null)
+//            ->min('price');
+//        $maxPrice = Car::where('published_at', '!=', null)
+//            ->max('price');
+//        $avgPrice = Car::where('published_at', '!=', null)
+//            ->avg('price');
+//        dd($minPrice, $maxPrice, $avgPrice);
 
-//        Maker::factory()->count(2)
-//            ->hasModels(1, function (array $attributes, Maker $maker) {
-//                return ['name' => $maker->name . '_maker-model-child'];
-//            })
-//            ->has(Model::factory()->count(3))
-//            ->has(Model::factory()->count(3), 'relationName')
-//            ->create();
-//  #ERROR
+//        // Select car IDs with how many images each car has
+//        $cars = CarImage::selectRaw('car_id, count (*) as image_count')
+//            ->groupBy('car_id')
+//            ->get();
+//        dd($cars [0]);
 
-//        $maker = Maker::factory()->craete();
-//
-//        Model::factory()
-//            ->count(5)
-//            ->for($maker)
-////            ->forMaker(['name'=>'Lexus'])
-////            ->for(Maker::factory()->state(['name'=>'Lexus']))
-////            ->for(Maker::factory()->state(['name'=>'Lexus']), 'relationName ')
-////            ->create();
-
-        User::factory()
-            ->has(Car::factory()->count(5), 'favoriteCars')
-//            ->hasAttacted(Car::factory()->count(5), ['col1' => 'val'], 'favoriteCars')
-            ->create();
-
-        return view('home.index');
+        return view('home.index', ['cars' => $cars]);
     }
 }

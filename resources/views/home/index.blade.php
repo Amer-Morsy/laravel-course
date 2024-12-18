@@ -102,19 +102,19 @@
             <div class="container">
                 <h2>Latest Added Cars</h2>
                 <div class="car-items-listing">
-                    @for($i=0; $i<15; $i++)
-                        <x-car-item/>
-                    @endfor
+                    @foreach($cars as $car)
+                        <x-car-item :$car/>
+                    @endforeach
                 </div>
             </div>
         </section>
         <!--/ New Cars -->
     </main>
 
-{{--    <x-slot:footerLinks>--}}
-{{--        <a href="">Link3</a>--}}
-{{--        <a href="">Link4</a>--}}
-{{--    </x-slot:footerLinks>--}}
+    {{--    <x-slot:footerLinks>--}}
+    {{--        <a href="">Link3</a>--}}
+    {{--        <a href="">Link4</a>--}}
+    {{--    </x-slot:footerLinks>--}}
 
 
 </x-app-layout>

@@ -22,7 +22,7 @@ class Maker extends EloquentModel
 
     public function models()
     {
-        return $this->hasMany(\App\Models\Model::class, 'maker_id');
+        return $this->hasMany(Model::class, 'maker_id');
     }
 
 

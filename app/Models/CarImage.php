@@ -11,7 +11,7 @@ class CarImage extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['images_path', 'position'];
+    protected $fillable = ['image_path', 'position'];
 
     public function car()
     {
